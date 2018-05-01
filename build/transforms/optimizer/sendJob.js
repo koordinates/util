@@ -29,7 +29,11 @@ define([
 	});
 
 	if(bc.maxOptimizationProcesses < 0){
-		bc.maxOptimizationProcesses = require.nodeRequire('os').cpus().length;
+		bc.maxOptimizationProcesses = Math.min(
+			// don't use 32 cores; that way lies madness.
+			8,
+			require.nodeRequire('os').cpus().length
+		);
 	}
 	var
 		processesStarted = 0,
